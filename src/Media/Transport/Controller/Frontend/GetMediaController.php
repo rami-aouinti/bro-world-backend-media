@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Media\Transport\Controller\Api\Frontend;
+namespace App\Media\Transport\Controller\Frontend;
 
 use App\General\Domain\Utils\JSON;
 use App\General\Infrastructure\ValueObject\SymfonyUser;
@@ -42,47 +42,6 @@ readonly class GetMediaController
     #[Route(
         path: '/v1/platform/media/{media}',
         methods: [Request::METHOD_GET],
-    )]
-    #[OA\Response(
-        response: 200,
-        description: 'Media data',
-        content: new JsonContent(
-            ref: new Model(
-                type: Media::class,
-                groups: ['Media'],
-            ),
-            type: 'object',
-        ),
-    )]
-    #[OA\Response(
-        response: 401,
-        description: 'Invalid token (not found or expired)',
-        content: new JsonContent(
-            properties: [
-                new Property(property: 'code', description: 'Error code', type: 'integer'),
-                new Property(property: 'message', description: 'Error description', type: 'string'),
-            ],
-            type: 'object',
-            example: [
-                'code' => 401,
-                'message' => 'JWT Token not found',
-            ],
-        ),
-    )]
-    #[OA\Response(
-        response: 403,
-        description: 'Access denied',
-        content: new JsonContent(
-            properties: [
-                new Property(property: 'code', description: 'Error code', type: 'integer'),
-                new Property(property: 'message', description: 'Error description', type: 'string'),
-            ],
-            type: 'object',
-            example: [
-                'code' => 403,
-                'message' => 'Access denied',
-            ],
-        ),
     )]
     public function __invoke(SymfonyUser $symfonyUser, Media $media): JsonResponse
     {
