@@ -74,6 +74,7 @@ final class LexikJwtAuthenticatorService implements AuthenticatorServiceInterfac
 
         try {
             $payload = $this->extractTokenPayloadFromRequest($event->getRequest());
+            dd($payload);
             $this->userId = $payload['id'];
             $this->fullName = $payload['firstName'] . ' ' . $payload['lastName'];
             $this->roles = $payload['roles'];
