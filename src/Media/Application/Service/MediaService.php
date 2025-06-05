@@ -52,10 +52,12 @@ readonly class MediaService
     {
         $media = $this->mediaRepository->find($id);
 
-        if ($media->getMediaType() === "video") {
-            $this->mediaThumbnailGenerator->generateVideoThumbnail($media->getPath(), 200, $media->getId());
-        } else {
-            $this->mediaThumbnailGenerator->generateImageThumbnail($media->getPath(), 200, $media->getId());
+        if($media) {
+            if ($media->getMediaType() === "video") {
+                $this->mediaThumbnailGenerator->generateVideoThumbnail($media->getPath(), 200, $media->getId());
+            } else {
+                $this->mediaThumbnailGenerator->generateImageThumbnail($media->getPath(), 200, $media->getId());
+            }
         }
 
         return true;

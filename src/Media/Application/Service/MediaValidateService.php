@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Media\Application\Service;
 
 use Exception;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+
+use function in_array;
+use function sprintf;
 
 /**
  * @package App\Media\Application\Service
@@ -61,7 +65,7 @@ class MediaValidateService
     {
         $realPath = realpath($filePath);
         if ($realPath === false) {
-            throw new Exception('Failed to get the real path of the file: ' . $filePath);
+            throw new RuntimeException('Failed to get the real path of the file: ' . $filePath);
         }
 
         chmod($realPath, 0644);
@@ -71,7 +75,7 @@ class MediaValidateService
 
         foreach ($output as $line) {
             if (str_contains($line, 'FOUND')) {
-                throw new Exception('The file cannot be uploaded and processed because it is suspected to contain a virus.');
+                throw new RuntimeException('The file cannot be uploaded and processed because it is suspected to contain a virus.');
             }
         }
 
