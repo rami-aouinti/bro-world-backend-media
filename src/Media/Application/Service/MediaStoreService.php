@@ -107,7 +107,7 @@ class MediaStoreService
         }
         $this->filesystem->writeStream($uniqueFileName, $stream);
         fclose($stream);
-        $this->chmod_recursive('public/medias/', 0777);
+        //$this->chmod_recursive('public/medias/', 0777);
         return $uniqueFileName;
     }
 
