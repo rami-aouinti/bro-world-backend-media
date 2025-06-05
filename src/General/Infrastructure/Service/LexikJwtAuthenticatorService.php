@@ -74,11 +74,7 @@ final class LexikJwtAuthenticatorService implements AuthenticatorServiceInterfac
 
         try {
             $payload = $this->extractTokenPayloadFromRequest($event->getRequest());
-            dd($payload);
-            $this->userId = $payload['id'];
-            $this->fullName = $payload['firstName'] . ' ' . $payload['lastName'];
-            $this->roles = $payload['roles'];
-            $this->avatar = $payload['avatar'] ? '' : 'https://api.dicebear.com/7.x/avataaars/svg?seed=JonDoe';
+            $this->userId = $payload['username'];
         } catch (AuthenticationException $e) {
             if (preg_match($this->pathRegexp, $uri) > 0) {
                 throw $e;
