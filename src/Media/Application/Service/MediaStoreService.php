@@ -24,6 +24,8 @@ use Symfony\Component\String\UnicodeString;
 use App\Media\Domain\Entity\Media;
 use App\Media\Application\Util\FileHelperTrait;
 
+use function in_array;
+
 
 /**
  * @package App\Media\Application\Service
@@ -74,12 +76,12 @@ class MediaStoreService
         $media->setMediaFolder($this->getMediaFolder($request, $userId));
 
         $media->setPath(
-            $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost() . '/medias/' . $this->storeFile($file, $media->getMediaFolder()->getPath()));
+            $this->requestStack->getCurrentRequest()?->getSchemeAndHttpHost() . '/medias/' . $this->storeFile($file, $media->getMediaFolder()?->getPath()));
 
         $this->bus->dispatch(
             new CreateMediaMessenger(
                 $media->getId(),
-                $media->getMediaFolder()->getId(),
+                $media->getMediaFolder()?->getId(),
                 $media->getPath(),
                 $file->getClientOriginalName(),
                 $file->getMimeType(),
@@ -97,9 +99,9 @@ class MediaStoreService
     {
         umask(0022);
         $sanitizedFileName = $this->sanitizeFileName($file->getClientOriginalName());
-        $uniqueFileName = $path . uniqid() . '.' . pathinfo($sanitizedFileName, PATHINFO_EXTENSION);
+        $uniqueFileName = $path . uniqid('', true) . '.' . pathinfo($sanitizedFileName, PATHINFO_EXTENSION);
 
-        $stream = fopen($file->getRealPath(), 'r+');
+        $stream = fopen($file->getRealPath(), 'rb+');
         if (!$stream) {
             throw new RuntimeException("Impossible d'ouvrir le fichier pour lecture.");
         }
@@ -119,7 +121,7 @@ class MediaStoreService
         $media->setFileExtension($fileName);
         $media->setFileSize($size);
         $media->setMediaType($this->getFileType($mimeType));
-        $media->setContextKey($mediaFolder->getName());
+        $media->setContextKey($mediaFolder?->getName());
         $media->setPath($path);
         $media->setMediaFolder($mediaFolder);
 
