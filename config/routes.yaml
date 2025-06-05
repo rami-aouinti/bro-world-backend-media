@@ -1,0 +1,17 @@
+blog-controllers:
+    resource:
+        path: ../src/Media/Transport/Controller/Api/
+        namespace: App\Media\Transport\Controller\Api
+    type: attribute
+    prefix: /api
+    defaults:
+        _format: json
+
+media-public-controllers:
+    resource:
+        path: ../src/Media/Transport/Controller/Frontend/
+        namespace: App\Media\Transport\Controller\Frontend
+    type: attribute
+    prefix: /
+    defaults:
+        _format: json
