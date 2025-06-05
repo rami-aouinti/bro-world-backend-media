@@ -7,6 +7,7 @@ namespace App\General\Infrastructure\Service;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
+use LogicException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
@@ -15,6 +16,8 @@ use App\General\Application\Service\AuthenticatorServiceInterface;
 use App\General\Domain\Exception\AuthenticationException;
 use App\General\Domain\ValueObject\UserId;
 use App\General\Infrastructure\ValueObject\SymfonyUser;
+
+use function sprintf;
 
 /**
  * Class LexikJwtAuthenticatorService
@@ -55,7 +58,7 @@ final class LexikJwtAuthenticatorService implements AuthenticatorServiceInterfac
 
     public function getToken(string $id): ?string
     {
-        return $this->tokenManager->create(new SymfonyUser($id, '', '', '', []));
+        return $this->tokenManager->create(new SymfonyUser($id, '', '', []));
     }
 
     public static function getSubscribedEvents(): array
@@ -85,7 +88,7 @@ final class LexikJwtAuthenticatorService implements AuthenticatorServiceInterfac
     private function extractTokenPayloadFromRequest(Request $request): array
     {
         $token = $this->tokenExtractor->extract($request);
-        $token = false === $token ? '' : $token;
+        $token = $token === false ? '' : $token;
 
         try {
             $payload = $this->tokenManager->parse($token);
@@ -116,8 +119,8 @@ final class LexikJwtAuthenticatorService implements AuthenticatorServiceInterfac
     private function configurePathRegexp(): void
     {
         $this->pathRegexp = '/'.str_replace('/', '\/', $this->path).'/';
-        if (false === @preg_match($this->pathRegexp, '')) {
-            throw new \LogicException(sprintf('Invalid path regexp "%s"', $this->path));
+        if (@preg_match($this->pathRegexp, '') === false) {
+            throw new LogicException(sprintf('Invalid path regexp "%s"', $this->path));
         }
     }
 }
