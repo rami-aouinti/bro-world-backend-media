@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\General\Transport\Rest\Traits\Actions\Root;
 
 use App\General\Transport\Rest\Traits\Methods\FindOneMethod;
-use App\Role\Domain\Enum\Role;
+
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\JsonContent;
 use OpenApi\Attributes\Property;
@@ -39,7 +39,7 @@ trait FindOneAction
         ],
         methods: [Request::METHOD_GET],
     )]
-    #[IsGranted(Role::ROOT->value)]
+
     #[OA\Response(
         response: 200,
         description: 'success',

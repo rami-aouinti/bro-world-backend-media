@@ -6,7 +6,7 @@ namespace App\General\Transport\Rest\Traits\Actions\Root;
 
 use App\General\Application\DTO\Interfaces\RestDtoInterface;
 use App\General\Transport\Rest\Traits\Methods\CreateMethod;
-use App\Role\Domain\Enum\Role;
+
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\JsonContent;
 use OpenApi\Attributes\Property;
@@ -36,7 +36,7 @@ trait CreateAction
         path: '',
         methods: [Request::METHOD_POST],
     )]
-    #[IsGranted(Role::ROOT->value)]
+
     #[OA\RequestBody(
         request: 'body',
         description: 'object',

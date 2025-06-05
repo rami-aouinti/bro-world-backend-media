@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\General\Transport\Rest\Traits\Actions\Admin;
 
 use App\General\Transport\Rest\Traits\Methods\DeleteMethod;
-use App\Role\Domain\Enum\Role;
+
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\JsonContent;
 use OpenApi\Attributes\Property;
@@ -39,7 +39,7 @@ trait DeleteAction
         ],
         methods: [Request::METHOD_DELETE],
     )]
-    #[IsGranted(Role::ADMIN->value)]
+
     #[OA\Response(
         response: 200,
         description: 'deleted',

@@ -7,7 +7,7 @@ namespace App\Tests\Application\User\Transport\Controller\Api\v1\User;
 use App\General\Domain\Enum\Language;
 use App\General\Domain\Enum\Locale;
 use App\General\Domain\Utils\JSON;
-use App\Role\Domain\Enum\Role;
+
 use App\Tests\Application\User\Transport\Controller\Api\v1\Traits\UserHelper;
 use App\Tests\TestCase\WebTestCase;
 use App\Tool\Domain\Service\Interfaces\LocalizationServiceInterface;

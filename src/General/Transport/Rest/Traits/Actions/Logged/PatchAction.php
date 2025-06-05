@@ -6,7 +6,7 @@ namespace App\General\Transport\Rest\Traits\Actions\Logged;
 
 use App\General\Application\DTO\Interfaces\RestDtoInterface;
 use App\General\Transport\Rest\Traits\Methods\PatchMethod;
-use App\Role\Domain\Enum\Role;
+
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\JsonContent;
 use OpenApi\Attributes\Property;
@@ -40,7 +40,7 @@ trait PatchAction
         ],
         methods: [Request::METHOD_PATCH],
     )]
-    #[IsGranted(Role::LOGGED->value)]
+
     #[OA\RequestBody(
         request: 'body',
         description: 'object',

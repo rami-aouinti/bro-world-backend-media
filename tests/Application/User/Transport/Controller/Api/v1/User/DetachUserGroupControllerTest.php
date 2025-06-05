@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Application\User\Transport\Controller\Api\v1\User;
 
 use App\General\Domain\Utils\JSON;
-use App\Role\Domain\Enum\Role;
+
 use App\Tests\TestCase\WebTestCase;
 use App\User\Application\Resource\UserGroupResource;
 use App\User\Application\Resource\UserResource;

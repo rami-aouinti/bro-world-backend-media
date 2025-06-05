@@ -6,7 +6,7 @@ namespace App\Tests\Application\Role\Transport\Controller\Api\v1\Role;
 
 use App\General\Domain\Utils\JSON;
 use App\Role\Application\Security\Interfaces\RolesServiceInterface;
-use App\Role\Domain\Enum\Role;
+
 use App\Tests\TestCase\WebTestCase;
 use Exception;
 use Generator;
