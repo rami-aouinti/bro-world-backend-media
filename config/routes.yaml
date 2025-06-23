@@ -1,4 +1,4 @@
-blog-controllers:
+media-controllers:
     resource:
         path: ../src/Media/Transport/Controller/Api/
         namespace: App\Media\Transport\Controller\Api

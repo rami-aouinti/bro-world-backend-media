@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -28,16 +29,19 @@ use Symfony\Component\Serializer\SerializerInterface;
 readonly class GetMediaController
 {
     public function __construct(
-        private SerializerInterface $serializer,
-        private MediaRepositoryInterface $repository
+        private SerializerInterface $serializer
     ) {
     }
 
     /**
      * Get current user media data, accessible only for 'IS_AUTHENTICATED_FULLY' users.
      *
+     * @param SymfonyUser $symfonyUser
+     * @param Media       $media
+     *
      * @throws JsonException
-     * @throws NotSupported
+     * @throws ExceptionInterface
+     * @return JsonResponse
      */
     #[Route(
         path: '/v1/platform/media/{media}',
