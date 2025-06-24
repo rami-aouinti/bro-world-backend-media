@@ -99,7 +99,7 @@ class MediaValidateService
         if ($fileSize > self::MAX_FILE_SIZE[$category]) {
             throw new HttpException(Response::HTTP_BAD_REQUEST, sprintf(
                 'File size exceeds the maximum allowed size of %d KB for %s files',
-                self::MAX_FILE_SIZE[$category] / (1024),
+                self::MAX_FILE_SIZE[$category] / (102400),
                 $category
             ));
         }
