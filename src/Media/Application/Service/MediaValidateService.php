@@ -53,8 +53,8 @@ class MediaValidateService
     ];
 
     private const array MAX_FILE_SIZE = [
-        'documents' => 10 * 1024 * 1024, // 10 MB
-        'images' => 10 * 1024 * 1024,    // 10 MB
+        'documents' => 20 * 1024 * 1024, // 20 MB
+        'images' => 20 * 1024 * 1024,    // 20 MB
         'videos' => 2 * 1024 * 1024 * 1024, // 2 GB
     ];
 
@@ -99,7 +99,7 @@ class MediaValidateService
         if ($fileSize > self::MAX_FILE_SIZE[$category]) {
             throw new HttpException(Response::HTTP_BAD_REQUEST, sprintf(
                 'File size exceeds the maximum allowed size of %d KB for %s files',
-                self::MAX_FILE_SIZE[$category] / (102400),
+                self::MAX_FILE_SIZE[$category] / (1024),
                 $category
             ));
         }
