@@ -51,7 +51,8 @@ readonly class MediaFolderController
     public function __invoke(SymfonyUser $symfonyUser): JsonResponse
     {
         $mediaFolders = $this->repository->findBy([
-            'workplaceId' => $symfonyUser->getUserIdentifier()
+            'workplaceId' => $symfonyUser->getUserIdentifier(),
+            'parent' => null
         ]);
         /** @var array<string, string|array<string, string>> $output */
         $output = JSON::decode(

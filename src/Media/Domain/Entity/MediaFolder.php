@@ -91,6 +91,7 @@ class MediaFolder implements EntityInterface
     private $mediaFolderConfiguration = null;
 
     #[ORM\OneToMany(mappedBy: 'mediaFolder', targetEntity: Media::class, cascade: ['persist', 'remove'])]
+    #[Groups(['mediaFolder:read'])]
     private ?Collection $media;
 
     /**

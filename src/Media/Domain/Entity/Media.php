@@ -45,80 +45,97 @@ class Media implements EntityInterface
     #[Groups([
         'Media',
         'Media.id',
-        'Media:create'
+        'Media:create',
+        'mediaFolder:read'
     ])]
     private UuidInterface $id;
+
     use WorkplaceIdTrait;
 
     #[ORM\Column(type: 'uuid', nullable: true)]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?UuidInterface $userId = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private string $contextKey;
 
     #[ORM\Column(type: 'uuid', nullable: true)]
     #[Assert\NotNull]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?UuidInterface $contextId = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?string $mimeType = "";
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 50)]
     #[ORM\Column(type: 'string', length: 50)]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?string $fileExtension = "";
 
     #[Assert\NotBlank]
     #[Assert\Positive]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?int $fileSize = 0;
 
     #[ORM\Column(type: 'json', nullable: true)]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?array $metaData = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?string $fileName = "";
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?string $title = "";
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?string $alt = "";
+
     #[Assert\NotNull]
     #[ORM\Column(type: 'blob')]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private $mediaType = null;
 
     #[ORM\Column(type: 'blob', nullable: true)]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private $thumbnailsRo = null;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?bool $private = false;
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 2048)]
     #[ORM\Column(type: 'string', length: 2048)]
-    #[Groups(['default:read', 'Media', 'Media:create'])]
+    #[Groups(['default:read', 'Media', 'Media:create',
+        'mediaFolder:read'])]
     private ?string $path = "";
 
     #[ORM\ManyToOne(targetEntity: MediaFolder::class, cascade: ['persist'], inversedBy: 'media')]
@@ -126,7 +143,8 @@ class Media implements EntityInterface
     private ?MediaFolder $mediaFolder = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?DateTimeInterface $deletedAt = null;
 
     #[ORM\OneToMany(
@@ -135,7 +153,8 @@ class Media implements EntityInterface
         cascade: ['persist', 'remove'],
         orphanRemoval: true
     )]
-    #[Groups(['default:read', 'Media'])]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder:read'])]
     private ?Collection $thumbnails;
 
     /**
