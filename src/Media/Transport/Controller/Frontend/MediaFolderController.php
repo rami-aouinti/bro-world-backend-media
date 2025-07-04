@@ -54,13 +54,14 @@ readonly class MediaFolderController
             'workplaceId' => $symfonyUser->getUserIdentifier(),
             'parent' => null
         ]);
+
         /** @var array<string, string|array<string, string>> $output */
         $output = JSON::decode(
             $this->serializer->serialize(
                 $mediaFolders,
                 'json',
                 [
-                    'groups' => 'mediaFolder:read',
+                    'groups' => 'mediaFolder',
                 ]
             ),
             true,
