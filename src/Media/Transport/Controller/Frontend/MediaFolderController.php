@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 #[AsController]
 #[OA\Tag(name: 'Media')]
-readonly class GetMediaFolderController
+readonly class MediaFolderController
 {
     public function __construct(
         private SerializerInterface $serializer,
@@ -39,21 +39,19 @@ readonly class GetMediaFolderController
      * Get current user media data, accessible only for 'IS_AUTHENTICATED_FULLY' users.
      *
      * @param SymfonyUser $symfonyUser
-     * @param string      $folder
      *
      * @throws JsonException
      * @throws ExceptionInterface
      * @return JsonResponse
      */
     #[Route(
-        path: '/v1/platform/mediaFolder/{folder}',
+        path: '/v1/platform/mediaFolder',
         methods: [Request::METHOD_GET],
     )]
-    public function __invoke(SymfonyUser $symfonyUser, string $folder): JsonResponse
+    public function __invoke(SymfonyUser $symfonyUser): JsonResponse
     {
         $mediaFolders = $this->repository->findBy([
-            'workplaceId' => $symfonyUser->getUserIdentifier(),
-            'name' => $folder
+            'workplaceId' => $symfonyUser->getUserIdentifier()
         ]);
         /** @var array<string, string|array<string, string>> $output */
         $output = JSON::decode(

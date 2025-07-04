@@ -71,7 +71,7 @@ readonly class PostMediaFolderController
         if($request->request->get('mediaFolder')) {
             $mediaFolderParent = $this->mediaFolderRepository->find(Uuid::fromString($request->request->get('mediaFolder')));
             $mediaFolder->setParent($mediaFolderParent);
-            $mediaFolder->setPath($mediaFolderParent->getPath() . $request->request->get('name') .'/');
+            $mediaFolder->setPath($mediaFolderParent?->getPath() . $request->request->get('name') .'/');
 
         } else {
             $mediaFolderParent = $this->mediaFolderRepository->findOneBy(
