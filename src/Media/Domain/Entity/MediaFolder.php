@@ -203,6 +203,13 @@ class MediaFolder implements EntityInterface
         return $this;
     }
 
+    public function getMedia(): ?Collection
+    {
+        return $this->media;
+    }
+
+
+
     public function getMediaFolderConfiguration()
     {
         return $this->mediaFolderConfiguration;
