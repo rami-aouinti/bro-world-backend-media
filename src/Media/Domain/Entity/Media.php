@@ -81,61 +81,61 @@ class Media implements EntityInterface
     #[Assert\Length(max: 50)]
     #[ORM\Column(type: 'string', length: 50)]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?string $fileExtension = "";
 
     #[Assert\NotBlank]
     #[Assert\Positive]
     #[ORM\Column(type: 'integer')]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?int $fileSize = 0;
 
     #[ORM\Column(type: 'json', nullable: true)]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?array $metaData = null;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?string $fileName = "";
 
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?string $title = "";
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?string $alt = "";
 
     #[Assert\NotNull]
     #[ORM\Column(type: 'blob')]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private $mediaType = null;
 
     #[ORM\Column(type: 'blob', nullable: true)]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private $thumbnailsRo = null;
 
     #[ORM\Column(type: 'boolean')]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?bool $private = false;
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 2048)]
     #[ORM\Column(type: 'string', length: 2048)]
     #[Groups(['default:read', 'Media', 'Media:create',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?string $path = "";
 
     #[ORM\ManyToOne(targetEntity: MediaFolder::class, cascade: ['persist'], inversedBy: 'media')]
@@ -144,7 +144,7 @@ class Media implements EntityInterface
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?DateTimeInterface $deletedAt = null;
 
     #[ORM\OneToMany(
@@ -154,7 +154,7 @@ class Media implements EntityInterface
         orphanRemoval: true
     )]
     #[Groups(['default:read', 'Media',
-        'mediaFolder:read'])]
+        'mediaFolder'])]
     private ?Collection $thumbnails;
 
     /**
