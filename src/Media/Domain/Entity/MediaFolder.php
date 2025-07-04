@@ -79,6 +79,16 @@ class MediaFolder implements EntityInterface
     ])]
     private ?string $path = "";
 
+    #[ORM\Column(type: 'boolean')]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder'])]
+    private ?bool $private = false;
+
+    #[ORM\Column(type: 'boolean')]
+    #[Groups(['default:read', 'Media',
+        'mediaFolder'])]
+    private ?bool $favourite = false;
+
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
     private ?MediaFolder $parent = null;
 
@@ -138,6 +148,26 @@ class MediaFolder implements EntityInterface
         $this->childCount = $childCount;
 
         return $this;
+    }
+
+    public function getPrivate(): ?bool
+    {
+        return $this->private;
+    }
+
+    public function setPrivate(?bool $private): void
+    {
+        $this->private = $private;
+    }
+
+    public function getFavourite(): ?bool
+    {
+        return $this->favourite;
+    }
+
+    public function setFavourite(?bool $favourite): void
+    {
+        $this->favourite = $favourite;
     }
 
     public function isUseParentConfiguration(): ?bool
