@@ -42,7 +42,7 @@ class MediaFolder implements EntityInterface
         nullable: false,
     )]
     #[Groups([
-        'mediaFolder:read',
+        'mediaFolder',
         'Media',
         'Media.id'
     ])]
@@ -54,7 +54,7 @@ class MediaFolder implements EntityInterface
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     #[Groups([
-        'mediaFolder:read',
+        'mediaFolder',
         'Media',
         'Media.id'
     ])]
@@ -62,18 +62,18 @@ class MediaFolder implements EntityInterface
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Range(min: 0)]
-    #[Groups(['mediaFolder:read'])]
+    #[Groups(['mediaFolder'])]
     private int $childCount = 0;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(['mediaFolder:read'])]
+    #[Groups(['mediaFolder'])]
     private ?bool $useParentConfiguration = false;
 
     #[ORM\Column(type: 'string', length: 2048)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 2048)]
     #[Groups([
-        'mediaFolder:read',
+        'mediaFolder',
         'Media',
         'Media.id'
     ])]
@@ -83,15 +83,15 @@ class MediaFolder implements EntityInterface
     private ?MediaFolder $parent = null;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class, cascade: ['persist', 'remove'])]
-    #[Groups(['mediaFolder:read'])]
+    #[Groups(['mediaFolder'])]
     private ?Collection $children;
 
     #[ORM\Column(type: 'json', nullable: true)]
-    #[Groups(['mediaFolder:read'])]
+    #[Groups(['mediaFolder'])]
     private $mediaFolderConfiguration = null;
 
     #[ORM\OneToMany(mappedBy: 'mediaFolder', targetEntity: Media::class, cascade: ['persist', 'remove'])]
-    #[Groups(['mediaFolder:read'])]
+    #[Groups(['mediaFolder'])]
     private ?Collection $media;
 
     /**
