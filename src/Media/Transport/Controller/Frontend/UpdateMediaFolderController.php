@@ -46,7 +46,7 @@ readonly class UpdateMediaFolderController
      */
     #[Route(
         path: '/v1/platform/mediaFolder/{folder}',
-        methods: [Request::METHOD_PATCH],
+        methods: [Request::METHOD_POST],
     )]
     public function __invoke(SymfonyUser $symfonyUser, Request $request, MediaFolder $folder): JsonResponse
     {
