@@ -87,7 +87,7 @@ class MediaFolder implements EntityInterface
     #[ORM\Column(type: 'boolean')]
     #[Groups(['default:read', 'Media',
         'mediaFolder'])]
-    private ?bool $favourite = false;
+    private ?bool $favorite = false;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
     private ?MediaFolder $parent = null;
@@ -160,15 +160,16 @@ class MediaFolder implements EntityInterface
         $this->private = $private;
     }
 
-    public function getFavourite(): ?bool
+    public function getFavorite(): ?bool
     {
-        return $this->favourite;
+        return $this->favorite;
     }
 
-    public function setFavourite(?bool $favourite): void
+    public function setFavorite(?bool $favorite): void
     {
-        $this->favourite = $favourite;
+        $this->favorite = $favorite;
     }
+
 
     public function isUseParentConfiguration(): ?bool
     {

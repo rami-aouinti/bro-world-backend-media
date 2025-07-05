@@ -45,22 +45,22 @@ readonly class UpdateMediaFolderController
      * @throws ExceptionInterface
      */
     #[Route(
-        path: '/v1/platform/mediaFolder/{mediaFolder}',
+        path: '/v1/platform/mediaFolder/{folder}',
         methods: [Request::METHOD_PUT],
     )]
-    public function __invoke(SymfonyUser $symfonyUser, Request $request, MediaFolder $mediaFolder): JsonResponse
+    public function __invoke(SymfonyUser $symfonyUser, Request $request, MediaFolder $folder): JsonResponse
     {
         if($request->request->get('name')) {
-            $mediaFolder->setName($request->request->get('name'));
+            $folder->setName($request->request->get('name'));
         }
 
-        $this->entityManager->persist($mediaFolder);
+        $this->entityManager->persist($folder);
         $this->entityManager->flush();
 
         /** @var array<string, string|array<string, string>> $output */
         $output = JSON::decode(
             $this->serializer->serialize(
-                $mediaFolder,
+                $folder,
                 'json',
                 [
                     'groups' => 'MediaFolder',

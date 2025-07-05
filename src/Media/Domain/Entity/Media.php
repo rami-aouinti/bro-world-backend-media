@@ -134,7 +134,7 @@ class Media implements EntityInterface
     #[ORM\Column(type: 'boolean')]
     #[Groups(['default:read', 'Media',
         'mediaFolder'])]
-    private ?bool $favourite = false;
+    private ?bool $favorite = false;
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 2048)]
@@ -362,14 +362,14 @@ class Media implements EntityInterface
         return null;
     }
 
-    public function getFavourite(): ?bool
+    public function getFavorite(): ?bool
     {
-        return $this->favourite;
+        return $this->favorite;
     }
 
-    public function setFavourite(?bool $favourite): void
+    public function setFavorite(?bool $favorite): void
     {
-        $this->favourite = $favourite;
+        $this->favorite = $favorite;
     }
 
     /**
