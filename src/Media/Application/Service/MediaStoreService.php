@@ -223,11 +223,7 @@ class MediaStoreService
     private function getMediaFolder(Request $request, string $userId): ?MediaFolder
     {
         $mediaFolderRequest = $request->request->get('mediaFolder');
-
-        $mediaFolder = $this->mediaFolderRepository->findOneBy([
-            'workplaceId' => Uuid::fromString($userId),
-            'name' => $mediaFolderRequest
-        ]);
+        $mediaFolder = $this->mediaFolderRepository->find($mediaFolderRequest);
 
         if(!$mediaFolder) {
             $mediaFolder = new MediaFolder();
