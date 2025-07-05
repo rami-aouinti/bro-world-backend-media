@@ -46,13 +46,12 @@ readonly class UpdateMediaFolderController
      */
     #[Route(
         path: '/v1/platform/mediaFolder/{folder}',
-        methods: [Request::METHOD_PATCH],
+        methods: [Request::METHOD_POST],
     )]
     public function __invoke(SymfonyUser $symfonyUser, Request $request, MediaFolder $folder): JsonResponse
     {
-        $data = $request->request->all();
-        if($data['name']) {
-            $folder->setName($data['name']);
+        if($request->request->get('name')) {
+            $folder->setName($request->request->get('name'));
         }
 
         $this->entityManager->persist($folder);
