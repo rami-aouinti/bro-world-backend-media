@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Media\Transport\Controller\Frontend;
 
 use App\General\Domain\Utils\JSON;
+use App\General\Infrastructure\ValueObject\SymfonyUser;
 use App\Media\Domain\Entity\Media;
 use App\Media\Domain\Entity\MediaFolder;
 use DateTime;
@@ -47,7 +48,7 @@ readonly class UpdateMediaFolderController
         path: '/v1/platform/mediaFolder/{mediaFolder}',
         methods: [Request::METHOD_PUT],
     )]
-    public function __invoke(MediaFolder $mediaFolder, Request $request): JsonResponse
+    public function __invoke(SymfonyUser $symfonyUser, Request $request, MediaFolder $mediaFolder): JsonResponse
     {
         if($request->request->get('name')) {
             $mediaFolder->setName($request->request->get('name'));
