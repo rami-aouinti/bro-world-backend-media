@@ -46,7 +46,7 @@ class Media implements EntityInterface
         'Media',
         'Media.id',
         'Media:create',
-        'mediaFolder:read'
+        'mediaFolder'
     ])]
     private UuidInterface $id;
 
