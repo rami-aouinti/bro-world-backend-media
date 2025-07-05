@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Media\Transport\Controller\Frontend;
 
 use App\General\Domain\Utils\JSON;
+use App\General\Infrastructure\ValueObject\SymfonyUser;
 use App\Media\Domain\Entity\Media;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonException;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -35,12 +37,13 @@ readonly class DeleteMediaController
      * Get current user media data, accessible only for 'IS_AUTHENTICATED_FULLY' users.
      *
      * @throws JsonException
+     * @throws ExceptionInterface
      */
     #[Route(
         path: '/v1/platform/media/{media}',
         methods: [Request::METHOD_DELETE],
     )]
-    public function __invoke(Media $media): JsonResponse
+    public function __invoke(SymfonyUser $symfonyUser, Media $media): JsonResponse
     {
         $this->entityManager->remove($media);
         $this->entityManager->flush();

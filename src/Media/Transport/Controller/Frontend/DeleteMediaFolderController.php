@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Media\Transport\Controller\Frontend;
 
 use App\General\Domain\Utils\JSON;
+use App\General\Infrastructure\ValueObject\SymfonyUser;
 use App\Media\Domain\Entity\Media;
 use App\Media\Domain\Entity\MediaFolder;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +44,7 @@ readonly class DeleteMediaFolderController
         path: '/v1/platform/mediaFolder/{folder}',
         methods: [Request::METHOD_DELETE],
     )]
-    public function __invoke(MediaFolder $folder): JsonResponse
+    public function __invoke(SymfonyUser $symfonyUser, MediaFolder $folder): JsonResponse
     {
         $this->entityManager->remove($folder);
         $this->entityManager->flush();
