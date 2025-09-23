@@ -17,7 +17,7 @@ readonly class MediaElasticsearchService implements MediaElasticsearchServiceInt
 {
     public function __construct(
         private ElasticsearchServiceInterface $elasticsearchService,
-        private MediaRepository $userRepository
+        private MediaRepository $mediaRepository
     ) {
     }
 
@@ -46,7 +46,7 @@ readonly class MediaElasticsearchService implements MediaElasticsearchServiceInt
                 'query' => [
                     'multi_match' => [
                         'query' => $query,
-                        'fields' => $this->userRepository->getSearchColumns(),
+                        'fields' => $this->mediaRepository->getSearchColumns(),
                     ],
                 ],
             ],

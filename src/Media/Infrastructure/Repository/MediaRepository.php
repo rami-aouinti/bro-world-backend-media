@@ -29,7 +29,14 @@ class MediaRepository extends BaseRepository implements MediaRepositoryInterface
     /**
      * @var array<int, string>
      */
-    protected static array $searchColumns = ['username', 'firstName', 'lastName', 'email'];
+    protected static array $searchColumns = [
+        'title',
+        'fileName',
+        'path',
+        'contextKey',
+        'mimeType',
+        'alt',
+    ];
 
     /**
      * @psalm-var class-string
