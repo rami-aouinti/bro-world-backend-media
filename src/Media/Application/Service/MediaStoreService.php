@@ -171,7 +171,7 @@ class MediaStoreService
             ? Uuid::fromString($userId)
             : Uuid::uuid1();
         $media->setUserId($uuidUser);
-        $media->setWorkplaceId(Uuid::fromString($userId));
+        $media->setWorkplaceId($uuidUser);
 
         return $media;
     }
@@ -226,10 +226,13 @@ class MediaStoreService
         $mediaFolder = $this->mediaFolderRepository->find($mediaFolderRequest);
 
         if(!$mediaFolder) {
+            $uuidUser = ($userId && Uuid::isValid($userId))
+                ? Uuid::fromString($userId)
+                : Uuid::uuid1();
             $mediaFolder = new MediaFolder();
             $mediaFolder->setName($mediaFolderRequest);
-            $mediaFolder->setWorkplaceId(Uuid::fromString($userId));
-            $mediaFolder->setPath(Uuid::fromString($userId) . '/' . $mediaFolderRequest . '/');
+            $mediaFolder->setWorkplaceId($uuidUser);
+            $mediaFolder->setPath($uuidUser->toString() . '/' . $mediaFolderRequest . '/');
             $this->entityManager->persist($mediaFolder);
             $this->entityManager->flush();
         }
