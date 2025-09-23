@@ -56,6 +56,9 @@ class MediaValidateService
         'documents' => 20 * 1024 * 1024, // 20 MB
         'images' => 20 * 1024 * 1024,    // 20 MB
         'videos' => 2 * 1024 * 1024 * 1024, // 2 GB
+        'audio' => 200 * 1024 * 1024, // 200 MB
+        'archives' => 500 * 1024 * 1024, // 500 MB
+        'others' => 20 * 1024 * 1024, // 20 MB
     ];
 
     /**
