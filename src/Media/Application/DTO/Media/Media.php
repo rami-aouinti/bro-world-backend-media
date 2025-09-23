@@ -8,12 +8,9 @@ use App\General\Application\DTO\Interfaces\RestDtoInterface;
 use App\General\Application\DTO\RestDto;
 use App\General\Domain\Entity\Interfaces\EntityInterface;
 use App\Media\Domain\Entity\Media as Entity;
-use DateTimeInterface;
 use Override;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
-use function array_map;
 
 /**
  * @package App\Media
@@ -24,46 +21,27 @@ use function array_map;
  */
 class Media extends RestDto
 {
-
-    #[Assert\NotBlank(message: 'User ID cannot be blank.')]
-    protected UuidInterface $userId;
+    protected ?UuidInterface $userId = null;
 
     #[Assert\NotBlank]
-    #[Assert\NotNull]
     #[Assert\Length(min: 2, max: 255)]
-    protected string $title= '';
+    protected string $title = '';
 
     #[Assert\NotBlank]
-    #[Assert\NotNull]
-    protected string $description = '';
+    protected string $alt = '';
 
     #[Assert\NotBlank]
-    #[Assert\NotNull]
-    protected string $gender = '';
+    #[Assert\Length(max: 2048)]
+    protected string $path = '';
 
-    protected UuidInterface $photo;
+    #[Assert\Type('array')]
+    protected ?array $metaData = null;
 
-    #[Assert\Date(message: 'The birthday must be a valid date.')]
-    protected ?DateTimeInterface $birthday = null;
+    #[Assert\Type('bool')]
+    protected ?bool $favorite = null;
 
-    protected ?string $googleId = "";
-
-    protected ?string $githubId = "";
-
-    protected ?string $githubUrl = "";
-
-    protected ?string $instagramUrl = "";
-
-    protected ?string $linkedInId = "";
-
-    protected ?string $linkedInUrl = "";
-
-    protected ?string $twitterUrl = "";
-
-    protected ?string $facebookUrl = "";
-
-    protected ?string $phone = "";
-
+    #[Assert\Type('bool')]
+    protected ?bool $private = null;
 
     public function getTitle(): string
     {
@@ -78,184 +56,80 @@ class Media extends RestDto
         return $this;
     }
 
-    public function getDescription(): string
+    public function getAlt(): string
     {
-        return $this->description;
+        return $this->alt;
     }
 
-    public function setDescription(string $description): self
+    public function setAlt(string $alt): self
     {
-        $this->setVisited('description');
-        $this->description = $description;
+        $this->setVisited('alt');
+        $this->alt = $alt;
 
         return $this;
     }
 
-    public function getUserId(): UuidInterface
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->setVisited('path');
+        $this->path = $path;
+
+        return $this;
+    }
+
+    public function getMetaData(): ?array
+    {
+        return $this->metaData;
+    }
+
+    public function setMetaData(?array $metaData): self
+    {
+        $this->setVisited('metaData');
+        $this->metaData = $metaData;
+
+        return $this;
+    }
+
+    public function getFavorite(): ?bool
+    {
+        return $this->favorite;
+    }
+
+    public function setFavorite(?bool $favorite): self
+    {
+        $this->setVisited('favorite');
+        $this->favorite = $favorite;
+
+        return $this;
+    }
+
+    public function getPrivate(): ?bool
+    {
+        return $this->private;
+    }
+
+    public function setPrivate(?bool $private): self
+    {
+        $this->setVisited('private');
+        $this->private = $private;
+
+        return $this;
+    }
+
+    public function getUserId(): ?UuidInterface
     {
         return $this->userId;
     }
 
-    public function setUserId(UuidInterface $userId): self
+    public function setUserId(?UuidInterface $userId): self
     {
         $this->setVisited('userId');
         $this->userId = $userId;
-
-        return $this;
-    }
-
-    public function getGender(): string
-    {
-        return $this->gender;
-    }
-
-    public function setGender(string $gender): self
-    {
-        $this->setVisited('gender');
-        $this->gender = $gender;
-
-        return $this;
-    }
-
-    public function getPhoto(): UuidInterface
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(UuidInterface $photo): self
-    {
-        $this->setVisited('photo');
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    public function getBirthday(): ?DateTimeInterface
-    {
-        return $this->birthday;
-    }
-
-    public function setBirthday(?DateTimeInterface $birthday): self
-    {
-        $this->setVisited('birthday');
-        $this->birthday = $birthday;
-
-        return $this;
-    }
-
-    public function getGoogleId(): ?string
-    {
-        return $this->googleId;
-    }
-
-    public function setGoogleId(?string $googleId): self
-    {
-        $this->setVisited('googleId');
-        $this->googleId = $googleId;
-
-        return $this;
-    }
-
-    public function getGithubId(): ?string
-    {
-        return $this->githubId;
-    }
-
-    public function setGithubId(?string $githubId): self
-    {
-        $this->setVisited('githubId');
-        $this->githubId = $githubId;
-
-        return $this;
-    }
-
-    public function getGithubUrl(): ?string
-    {
-        return $this->githubUrl;
-    }
-
-    public function setGithubUrl(?string $githubUrl): self
-    {
-        $this->setVisited('githubUrl');
-        $this->githubUrl = $githubUrl;
-
-        return $this;
-    }
-
-    public function getInstagramUrl(): ?string
-    {
-        return $this->instagramUrl;
-    }
-
-    public function setInstagramUrl(?string $instagramUrl): self
-    {
-        $this->setVisited('instagramUrl');
-        $this->instagramUrl = $instagramUrl;
-
-        return $this;
-    }
-
-    public function getLinkedInId(): ?string
-    {
-        return $this->linkedInId;
-    }
-
-    public function setLinkedInId(?string $linkedInId): self
-    {
-        $this->setVisited('linkedInId');
-        $this->linkedInId = $linkedInId;
-
-        return $this;
-    }
-
-    public function getLinkedInUrl(): ?string
-    {
-        return $this->linkedInUrl;
-    }
-
-    public function setLinkedInUrl(?string $linkedInUrl): self
-    {
-        $this->setVisited('linkedInUrl');
-        $this->linkedInUrl = $linkedInUrl;
-
-        return $this;
-    }
-
-    public function getTwitterUrl(): ?string
-    {
-        return $this->twitterUrl;
-    }
-
-    public function setTwitterUrl(?string $twitterUrl): self
-    {
-        $this->setVisited('twitterUrl');
-        $this->twitterUrl = $twitterUrl;
-
-        return $this;
-    }
-
-    public function getFacebookUrl(): ?string
-    {
-        return $this->facebookUrl;
-    }
-
-    public function setFacebookUrl(?string $facebookUrl): self
-    {
-        $this->setVisited('facebookUrl');
-        $this->facebookUrl = $facebookUrl;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): self
-    {
-        $this->setVisited('phone');
-        $this->phone = $phone;
 
         return $this;
     }
@@ -270,21 +144,13 @@ class Media extends RestDto
     {
         if ($entity instanceof Entity) {
             $this->id = $entity->getId();
-            $this->title = $entity->getTitle();
-            $this->description = $entity->getDescription();
             $this->userId = $entity->getUserId();
-            $this->photo = $entity->getPhoto();
-            $this->birthday = $entity->getBirthday();
-            $this->gender = $entity->getGender();
-            $this->googleId = $entity->getGoogleId();
-            $this->githubId = $entity->getGithubId();
-            $this->githubUrl = $entity->getGithubUrl();
-            $this->instagramUrl = $entity->getInstagramUrl();
-            $this->linkedInId = $entity->getLinkedInId();
-            $this->linkedInUrl = $entity->getLinkedInUrl();
-            $this->twitterUrl = $entity->getTwitterUrl();
-            $this->facebookUrl = $entity->getFacebookUrl();
-            $this->phone = $entity->getPhone();
+            $this->title = $entity->getTitle();
+            $this->alt = $entity->getAlt();
+            $this->path = $entity->getPath();
+            $this->metaData = $entity->getMetaData();
+            $this->favorite = $entity->getFavorite();
+            $this->private = $entity->isPrivate();
         }
 
         return $this;
