@@ -16,6 +16,7 @@ final readonly class SymfonyUser implements UserInterface
 {
     public function __construct(
         private ?string $userIdentifier,
+        private ?string $id,
         private ?string $fullName,
         private ?string $avatar,
         private ?array $roles
@@ -35,6 +36,11 @@ final readonly class SymfonyUser implements UserInterface
     public function getUserIdentifier(): string
     {
         return $this->userIdentifier;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 
     public function getFullName(): ?string

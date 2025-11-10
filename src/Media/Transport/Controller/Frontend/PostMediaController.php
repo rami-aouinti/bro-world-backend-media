@@ -56,7 +56,7 @@ readonly class PostMediaController
         $medias = array_map(function ($file) use ($request, $symfonyUser) {
             return $this->mediaService->processSingleMedia(
                 $file,
-                $symfonyUser->getUserIdentifier(),
+                $symfonyUser->getId(),
                 $request
             );
         }, $files["files"]);

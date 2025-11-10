@@ -27,6 +27,7 @@ use function sprintf;
  */
 final class LexikJwtAuthenticatorService implements AuthenticatorServiceInterface, EventSubscriberInterface
 {
+    private ?string $id = null;
     private ?string $userId = null;
     private ?string $fullName = null;
     private ?string $avatar = null;
@@ -50,6 +51,7 @@ final class LexikJwtAuthenticatorService implements AuthenticatorServiceInterfac
     {
         return new SymfonyUser(
             $this->userId,
+            $this->id,
             $this->fullName,
             $this->avatar,
             $this->roles
@@ -75,6 +77,7 @@ final class LexikJwtAuthenticatorService implements AuthenticatorServiceInterfac
         try {
             $payload = $this->extractTokenPayloadFromRequest($event->getRequest());
             $this->userId = $payload['id'];
+            $this->id = $payload['id'];
         } catch (AuthenticationException $e) {
             if (preg_match($this->pathRegexp, $uri) > 0) {
                 throw $e;
