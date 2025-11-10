@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemOperator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -64,9 +65,20 @@ class MediaStoreServiceTest extends TestCase
         $request = new Request([], ['mediaFolder' => 'folder-name']);
 
         $this->mediaFolderRepository
+            ->expects(self::never())
+            ->method('find');
+
+        $this->mediaFolderRepository
             ->expects(self::once())
-            ->method('find')
-            ->with('folder-name')
+            ->method('findOneBy')
+            ->with(self::callback(static function (array $criteria): bool {
+                self::assertArrayHasKey('name', $criteria);
+                self::assertArrayHasKey('workplaceId', $criteria);
+                self::assertSame('folder-name', $criteria['name']);
+                self::assertInstanceOf(UuidInterface::class, $criteria['workplaceId']);
+
+                return true;
+            }))
             ->willReturn(null);
 
         $this->entityManager
@@ -85,6 +97,85 @@ class MediaStoreServiceTest extends TestCase
 
         /** @var MediaFolder $mediaFolder */
         $mediaFolder = $method->invoke($service, $request, $invalidUserId);
+
+        self::assertInstanceOf(MediaFolder::class, $mediaFolder);
+        $workplaceId = $mediaFolder->getWorkplaceId();
+        self::assertInstanceOf(UuidInterface::class, $workplaceId);
+        self::assertSame($workplaceId->toString() . '/folder-name/', $mediaFolder->getPath());
+    }
+
+    public function testGetMediaFolderReturnsExistingFolderWhenArrayContainsId(): void
+    {
+        $userId = Uuid::uuid4()->toString();
+        $existingFolder = new MediaFolder();
+        $folderId = $existingFolder->getId();
+
+        $request = new Request([], ['mediaFolder' => ['id' => $folderId]]);
+
+        $this->mediaFolderRepository
+            ->expects(self::once())
+            ->method('find')
+            ->with($folderId)
+            ->willReturn($existingFolder);
+
+        $this->mediaFolderRepository
+            ->expects(self::never())
+            ->method('findOneBy');
+
+        $this->entityManager
+            ->expects(self::never())
+            ->method('persist');
+
+        $this->entityManager
+            ->expects(self::never())
+            ->method('flush');
+
+        $service = $this->createService();
+
+        $method = new \ReflectionMethod(MediaStoreService::class, 'getMediaFolder');
+        $method->setAccessible(true);
+
+        $mediaFolder = $method->invoke($service, $request, $userId);
+
+        self::assertSame($existingFolder, $mediaFolder);
+    }
+
+    public function testGetMediaFolderCreatesNewFolderWhenArrayContainsNameOnly(): void
+    {
+        $userId = Uuid::uuid4()->toString();
+        $request = new Request([], ['mediaFolder' => ['name' => 'folder-name']]);
+
+        $this->mediaFolderRepository
+            ->expects(self::never())
+            ->method('find');
+
+        $this->mediaFolderRepository
+            ->expects(self::once())
+            ->method('findOneBy')
+            ->with(self::callback(static function (array $criteria): bool {
+                self::assertSame('folder-name', $criteria['name']);
+                self::assertInstanceOf(UuidInterface::class, $criteria['workplaceId']);
+
+                return true;
+            }))
+            ->willReturn(null);
+
+        $this->entityManager
+            ->expects(self::once())
+            ->method('persist')
+            ->with(self::isInstanceOf(MediaFolder::class));
+
+        $this->entityManager
+            ->expects(self::once())
+            ->method('flush');
+
+        $service = $this->createService();
+
+        $method = new \ReflectionMethod(MediaStoreService::class, 'getMediaFolder');
+        $method->setAccessible(true);
+
+        /** @var MediaFolder $mediaFolder */
+        $mediaFolder = $method->invoke($service, $request, $userId);
 
         self::assertInstanceOf(MediaFolder::class, $mediaFolder);
         $workplaceId = $mediaFolder->getWorkplaceId();
