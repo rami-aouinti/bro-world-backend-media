@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\TestCase;
 
 use App\ApiKey\Domain\Entity\ApiKey;
-use App\General\Domain\Utils\JSON;
+use Bro\WorldCoreBundle\Domain\Utils\JSON;
 use App\Role\Application\Security\Interfaces\RolesServiceInterface;
 use JsonException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

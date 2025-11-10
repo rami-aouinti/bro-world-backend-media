@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Media\Infrastructure\Repository;
 
-use App\General\Infrastructure\Repository\BaseRepository;
+use Bro\WorldCoreBundle\Infrastructure\Repository\BaseRepository;
 use App\Media\Domain\Entity\Media as Entity;
 use App\Media\Domain\Repository\Interfaces\MediaRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;

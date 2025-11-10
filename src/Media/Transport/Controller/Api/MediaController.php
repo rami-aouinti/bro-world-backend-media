@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Media\Transport\Controller\Api;
 
-use App\General\Transport\Rest\Controller;
-use App\General\Transport\Rest\ResponseHandler;
-use App\General\Transport\Rest\Traits\Actions;
+use Bro\WorldCoreBundle\Transport\Rest\Controller;
+use Bro\WorldCoreBundle\Transport\Rest\ResponseHandler;
+use Bro\WorldCoreBundle\Transport\Rest\Traits\Actions;
 use App\Media\Application\DTO\Media\MediaCreate;
 use App\Media\Application\DTO\Media\MediaPatch;
 use App\Media\Application\DTO\Media\MediaUpdate;

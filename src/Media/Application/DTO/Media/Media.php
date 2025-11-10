@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Media\Application\DTO\Media;
 
-use App\General\Application\DTO\Interfaces\RestDtoInterface;
-use App\General\Application\DTO\RestDto;
-use App\General\Domain\Entity\Interfaces\EntityInterface;
+use Bro\WorldCoreBundle\Application\DTO\Interfaces\RestDtoInterface;
+use Bro\WorldCoreBundle\Application\DTO\RestDto;
+use Bro\WorldCoreBundle\Domain\Entity\Interfaces\EntityInterface;
 use App\Media\Domain\Entity\Media as Entity;
 use Override;
 use Ramsey\Uuid\UuidInterface;

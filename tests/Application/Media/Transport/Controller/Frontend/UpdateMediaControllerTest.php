@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Media\Transport\Controller\Frontend;
 
-use App\General\Domain\Utils\JSON;
+use Bro\WorldCoreBundle\Domain\Utils\JSON;
 use App\Media\Domain\Entity\Media;
 use App\Media\Domain\Entity\MediaFolder;
 use App\Media\Infrastructure\Repository\MediaRepository;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Media\Transport\Command\Scheduler;
 
-use App\General\Transport\Command\Traits\SymfonyStyleTrait;
+use Bro\WorldCoreBundle\Transport\Command\Traits\SymfonyStyleTrait;
 use App\Media\Application\Service\Interfaces\MediaElasticsearchServiceInterface;
 use App\Media\Infrastructure\Repository\MediaRepository;
 use Symfony\Component\Console\Attribute\AsCommand;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Media\Application\Service;
 
-use App\General\Domain\Service\Interfaces\ElasticsearchServiceInterface;
+use Bro\WorldCoreBundle\Domain\Service\Interfaces\ElasticsearchServiceInterface;
 use App\Media\Application\Service\MediaElasticsearchService;
 use App\Media\Infrastructure\Repository\MediaRepository;
 use PHPUnit\Framework\MockObject\MockObject;

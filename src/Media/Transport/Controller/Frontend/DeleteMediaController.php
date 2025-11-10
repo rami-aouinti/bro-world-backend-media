@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Media\Transport\Controller\Frontend;
 
-use App\General\Domain\Utils\JSON;
-use App\General\Infrastructure\ValueObject\SymfonyUser;
+use Bro\WorldCoreBundle\Domain\Utils\JSON;
+use Bro\WorldCoreBundle\Infrastructure\ValueObject\SymfonyUser;
 use App\Media\Domain\Entity\Media;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonException;

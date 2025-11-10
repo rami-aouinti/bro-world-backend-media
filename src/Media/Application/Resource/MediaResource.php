@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Media\Application\Resource;
 
-use App\General\Application\DTO\Interfaces\RestDtoInterface;
-use App\General\Application\Rest\RestResource;
-use App\General\Domain\Entity\Interfaces\EntityInterface;
+use Bro\WorldCoreBundle\Application\DTO\Interfaces\RestDtoInterface;
+use Bro\WorldCoreBundle\Application\Rest\RestResource;
+use Bro\WorldCoreBundle\Domain\Entity\Interfaces\EntityInterface;
 use App\Media\Domain\Entity\Media as Entity;
 use App\Media\Domain\Repository\Interfaces\MediaRepositoryInterface as Repository;
 use App\Media\Infrastructure\Repository\MediaRepository;

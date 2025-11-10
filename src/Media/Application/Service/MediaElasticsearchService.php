@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Media\Application\Service;
 
-use App\General\Domain\Service\Interfaces\ElasticsearchServiceInterface;
+use Bro\WorldCoreBundle\Domain\Service\Interfaces\ElasticsearchServiceInterface;
 use App\Media\Application\Service\Interfaces\MediaElasticsearchServiceInterface;
 use App\Media\Domain\Entity\Media;
 use App\Media\Infrastructure\Repository\MediaRepository;
