@@ -223,16 +223,47 @@ class MediaStoreService
     private function getMediaFolder(Request $request, string $userId): ?MediaFolder
     {
         $mediaFolderRequest = $request->request->get('mediaFolder');
-        $mediaFolder = $this->mediaFolderRepository->find($mediaFolderRequest);
 
-        if(!$mediaFolder) {
-            $uuidUser = ($userId && Uuid::isValid($userId))
-                ? Uuid::fromString($userId)
-                : Uuid::uuid1();
+        if ($mediaFolderRequest instanceof MediaFolder) {
+            return $mediaFolderRequest;
+        }
+
+        $mediaFolder = null;
+        $mediaFolderName = null;
+
+        if (is_array($mediaFolderRequest)) {
+            $mediaFolderId = $mediaFolderRequest['id'] ?? $mediaFolderRequest['value'] ?? null;
+            if (is_string($mediaFolderId) && Uuid::isValid($mediaFolderId)) {
+                $mediaFolder = $this->mediaFolderRepository->find($mediaFolderId);
+            }
+
+            $mediaFolderName = $mediaFolderRequest['name'] ?? $mediaFolderRequest['label'] ?? null;
+        } elseif (is_string($mediaFolderRequest) && $mediaFolderRequest !== '') {
+            if (Uuid::isValid($mediaFolderRequest)) {
+                $mediaFolder = $this->mediaFolderRepository->find($mediaFolderRequest);
+            } else {
+                $mediaFolderName = $mediaFolderRequest;
+            }
+        }
+
+        $uuidUser = ($userId && Uuid::isValid($userId))
+            ? Uuid::fromString($userId)
+            : Uuid::uuid1();
+
+        if (!$mediaFolder && $mediaFolderName) {
+            $mediaFolder = $this->mediaFolderRepository->findOneBy([
+                'name' => $mediaFolderName,
+                'workplaceId' => $uuidUser,
+            ]);
+        }
+
+        if (!$mediaFolder) {
+            $folderName = $mediaFolderName ?: MediaFolder::SET_USER_MEDIA;
+
             $mediaFolder = new MediaFolder();
-            $mediaFolder->setName($mediaFolderRequest);
+            $mediaFolder->setName($folderName);
             $mediaFolder->setWorkplaceId($uuidUser);
-            $mediaFolder->setPath($uuidUser->toString() . '/' . $mediaFolderRequest . '/');
+            $mediaFolder->setPath($uuidUser->toString() . '/' . $folderName . '/');
             $this->entityManager->persist($mediaFolder);
             $this->entityManager->flush();
         }
