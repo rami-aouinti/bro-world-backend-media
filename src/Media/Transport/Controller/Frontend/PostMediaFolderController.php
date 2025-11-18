@@ -4,31 +4,25 @@ declare(strict_types=1);
 
 namespace App\Media\Transport\Controller\Frontend;
 
-use Bro\WorldCoreBundle\Domain\Utils\JSON;
-use Bro\WorldCoreBundle\Infrastructure\ValueObject\SymfonyUser;
-use App\Media\Application\Service\MediaService;
-use App\Media\Application\Service\ThumbnailService;
-use App\Media\Application\Transformer\FileTransformer;
-use App\Media\Domain\Entity\Media;
 use App\Media\Domain\Entity\MediaFolder;
+use App\Media\Domain\Message\MediaFolderChangedMessage;
 use App\Media\Domain\Repository\Interfaces\MediaRepositoryInterface;
 use App\Media\Infrastructure\Repository\MediaFolderRepository;
-use DateTime;
+use Bro\WorldCoreBundle\Domain\Utils\JSON;
+use Bro\WorldCoreBundle\Infrastructure\ValueObject\SymfonyUser;
+use App\Media\Application\Service\ThumbnailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\TransactionRequiredException;
-use Exception;
 use JsonException;
 use League\Flysystem\FilesystemException;
-use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
-use OpenApi\Attributes\JsonContent;
-use OpenApi\Attributes\Property;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -44,7 +38,8 @@ readonly class PostMediaFolderController
         private EntityManagerInterface $entityManager,
         private ThumbnailService $mediaThumbnailGenerator,
         private MediaRepositoryInterface $mediaRepository,
-        private MediaFolderRepository $mediaFolderRepository
+        private MediaFolderRepository $mediaFolderRepository,
+        private MessageBusInterface $messageBus,
     ) {
     }
 
@@ -94,6 +89,10 @@ readonly class PostMediaFolderController
 
         $this->entityManager->persist($mediaFolder);
         $this->entityManager->flush();
+
+        $this->messageBus->dispatch(
+            new MediaFolderChangedMessage($symfonyUser->getUserIdentifier())
+        );
 
         $output = JSON::decode(
             $this->serializer->serialize(

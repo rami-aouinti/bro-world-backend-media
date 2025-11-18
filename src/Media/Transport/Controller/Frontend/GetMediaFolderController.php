@@ -4,23 +4,13 @@ declare(strict_types=1);
 
 namespace App\Media\Transport\Controller\Frontend;
 
-use Bro\WorldCoreBundle\Domain\Utils\JSON;
+use App\Media\Application\Service\MediaFolderCacheService;
 use Bro\WorldCoreBundle\Infrastructure\ValueObject\SymfonyUser;
-use App\Media\Domain\Entity\Media;
-use App\Media\Domain\Repository\Interfaces\MediaRepositoryInterface;
-use App\Media\Infrastructure\Repository\MediaFolderRepository;
-use Doctrine\ORM\Exception\NotSupported;
-use JsonException;
-use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
-use OpenApi\Attributes\JsonContent;
-use OpenApi\Attributes\Property;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @package App\Media
@@ -29,10 +19,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[OA\Tag(name: 'Media')]
 readonly class GetMediaFolderController
 {
-    public function __construct(
-        private SerializerInterface $serializer,
-        private MediaFolderRepository $repository
-    ) {
+    public function __construct(private MediaFolderCacheService $mediaFolderCacheService)
+    {
     }
 
     /**
@@ -41,8 +29,6 @@ readonly class GetMediaFolderController
      * @param SymfonyUser $symfonyUser
      * @param string      $folder
      *
-     * @throws JsonException
-     * @throws ExceptionInterface
      * @return JsonResponse
      */
     #[Route(
@@ -51,22 +37,11 @@ readonly class GetMediaFolderController
     )]
     public function __invoke(SymfonyUser $symfonyUser, string $folder): JsonResponse
     {
-        $mediaFolders = $this->repository->findBy([
-            'workplaceId' => $symfonyUser->getUserIdentifier(),
-            'name' => $folder
-        ]);
-        /** @var array<string, string|array<string, string>> $output */
-        $output = JSON::decode(
-            $this->serializer->serialize(
-                $mediaFolders,
-                'json',
-                [
-                    'groups' => 'mediaFolder:read',
-                ]
-            ),
-            true,
+        $folders = $this->mediaFolderCacheService->getFolderByName(
+            $symfonyUser->getUserIdentifier(),
+            $folder
         );
 
-        return new JsonResponse($output);
+        return new JsonResponse($folders);
     }
 }
